@@ -19,7 +19,7 @@ var _ = Describe("GetOpenSubsonicExtensions", func() {
 	)
 
 	BeforeEach(func() {
-		router = subsonic.New(nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil)
+		router = subsonic.New(nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil)
 		w = httptest.NewRecorder()
 		r = httptest.NewRequest("GET", "/getOpenSubsonicExtensions?f=json", nil)
 	})
@@ -35,12 +35,13 @@ var _ = Describe("GetOpenSubsonicExtensions", func() {
 		err := json.Unmarshal(w.Body.Bytes(), &response)
 		Expect(err).NotTo(HaveOccurred())
 		Expect(*response.Subsonic.OpenSubsonicExtensions).To(SatisfyAll(
-			HaveLen(5),
+			HaveLen(6),
 			ContainElement(responses.OpenSubsonicExtension{Name: "transcodeOffset", Versions: []int32{1}}),
 			ContainElement(responses.OpenSubsonicExtension{Name: "formPost", Versions: []int32{1}}),
 			ContainElement(responses.OpenSubsonicExtension{Name: "songLyrics", Versions: []int32{1}}),
 			ContainElement(responses.OpenSubsonicExtension{Name: "indexBasedQueue", Versions: []int32{1}}),
 			ContainElement(responses.OpenSubsonicExtension{Name: "transcoding", Versions: []int32{1}}),
+			ContainElement(responses.OpenSubsonicExtension{Name: "getPodcastEpisode", Versions: []int32{1}}),
 		))
 	})
 })

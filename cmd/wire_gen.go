@@ -20,6 +20,7 @@ import (
 	"github.com/navidrome/navidrome/core/matcher"
 	"github.com/navidrome/navidrome/core/metrics"
 	"github.com/navidrome/navidrome/core/playback"
+	"github.com/navidrome/navidrome/core/podcasts"
 	"github.com/navidrome/navidrome/core/playlists"
 	"github.com/navidrome/navidrome/core/scrobbler"
 	"github.com/navidrome/navidrome/core/stream"
@@ -110,7 +111,8 @@ func CreateSubsonicAPIRouter(ctx context.Context) *subsonic.Router {
 	playbackServer := playback.GetInstance(dataStore)
 	lyricsLyrics := lyrics.NewLyrics(manager)
 	transcodeDecider := stream.NewTranscodeDecider(dataStore, fFmpeg)
-	router := subsonic.New(dataStore, artworkArtwork, mediaStreamer, archiver, players, provider, modelScanner, broker, playlistsPlaylists, playTracker, share, playbackServer, metricsMetrics, lyricsLyrics, transcodeDecider)
+	podcastService := podcasts.NewPodcastService(dataStore, fFmpeg)
+	router := subsonic.New(dataStore, artworkArtwork, mediaStreamer, archiver, players, provider, modelScanner, broker, playlistsPlaylists, playTracker, share, playbackServer, metricsMetrics, lyricsLyrics, transcodeDecider, podcastService)
 	return router
 }
 
